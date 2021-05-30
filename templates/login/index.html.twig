@@ -1,20 +1,30 @@
+{# /app/templates/security/login.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Log in!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <form method="post">
+    {# If there's any error, display it to the user #}
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Please sign in</h1>
+    
+    {# Email Input #}
+    <label for="inputEmail" class="sr-only">Email</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+    
+    {# Password Input #}
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    
+    {# CSRF Token Input #}
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/SuiviAppel/src/Controller/LoginController.php'|file_link(0) }}">src/Controller/LoginController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/SuiviAppel/templates/login/index.html.twig'|file_link(0) }}">templates/login/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <button class="btn btn-lg btn-primary" type="submit">
+        Sign in
+    </button>
+</form>
 {% endblock %}
